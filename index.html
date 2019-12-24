@@ -37,8 +37,49 @@ and is wrapped around the whole page content, except for the footer in this exam
 <!-- Grid -->
 <div class="w3-row">
 
+<!-- BLOG VIEW -->
+<div  v-if="view_blog != null" class="w3-col l8 s12">
+  <div class="w3-card-4 w3-margin w3-white" :id="view_blog.publishedAt">
+    <img :src="'https://jw.wj9.ca/images/' + view_blog.image + '.jpg'" alt="Blog Image" style="width:100%">
+    <div class="w3-container">
+      <p>&nbsp;</p>
+      <h3><b>{{ view_blog.title }}</b></h3>
+      <h5><span class="w3-opacity">{{ view_blog.publishedAt }}</span></h5>
+      <p>&nbsp;</p>
+    </div>
+    <div class="w3-container">
+      <div class="w3-row">
+        <div class="w3-col m8 s12">
+          <p><button class="w3-button w3-padding-small w3-light-grey w3-border" @click="view_blog.show = !view_blog.show"><b>{{view_blog.show ? '«' : 'Read more »'}}</b></button></p>
+        </div>
+        <div class="w3-col m4 w3-hide-small">
+          <p><span class="w3-padding-small w3-right"><b>By  </b> <span class="w3-tag">{{ view_blog.author }}</span></span></p>
+        </div>
+      </div>
+      <div>
+        <p>&nbsp;</p>
+        <p v-html="blogBody(view_blog)"> {{ blogBody(view_blog) }} </p>
+        <span class="w3-light-grey w3-medium" v-if="view_blog.hasOwnProperty('video')">
+          <i><b>VIDEO:&nbsp;</b>&nbsp;<span class="jw">&nbsp;</span>&nbsp;<span class="jw">&nbsp;</span>&nbsp;<span class="jw">&nbsp;</span></i>
+          <p v-for="(description, video) in view_blog.video">
+            <br />
+            <iframe v-if="video.startsWith('TikTok')" width="340" height="700" :src="video.replace('TikTok', 'https://www.tiktok.com/embed/')" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe v-if="video.startsWith('Vimeo')" width="640" height="360" :src="video.replace('Vimeo', 'https://player.vimeo.com/video/')" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <br />
+            <span v-html="description">{{ description }}</span>
+          </p>
+        </span>
+      </div>
+    </div>
+  </div>
+  <hr>      
+  </div>
+  </div>
+</div>
+<!-- END BLOG VIEW -->
+
 <!-- Blog entries -->
-<div class="w3-col l8 s12">
+<div v-if="view_blog == null" class="w3-col l8 s12">
   <!-- BLOG INDEX BUTTONS -->
   <div class="w3-card w3-margin w3-white">
     <div class="w3-container">
@@ -113,6 +154,7 @@ and is wrapped around the whole page content, except for the footer in this exam
   <!-- END BLOG INDEX BUTTONS -->
 </div>
 <!-- END BLOG ENTRIES -->
+
 
 <!-- Right side panel -->
 <div class="w3-col l4">
