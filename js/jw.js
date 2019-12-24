@@ -3,6 +3,7 @@ var jw = new Vue({
   data: {
     blogs: [],
     year_loaded: {},
+    view_blog: null,
     reading_blogs: [
       '2019-10-27',
       '2019-09-10'
@@ -18,7 +19,8 @@ var jw = new Vue({
       if (!this.year_loaded[year.toString()]) {
         $.getJSON('https://jw.wj9.ca/json/' + year.toString() + '.json', function(data) {
           data.forEach( function(blog) {    
-            jw.blogs.push(blog);
+            this.blogs.push(blog);
+            if (window.location.search.substring(1, 9) == blog.publishedAt.split('-').join('')) this.view_blog = blog;
           });
         });
         this.year_loaded[year.toString()] = true;
