@@ -50,6 +50,7 @@ var jw = new Vue({
     blogView: function (blog) {
       this.blogReading(blog);
       this.view_blog = blog
+      window.gtag('event', 'ReadMore', { event_category: 'Blog', event_label: blog.publishedAt, value: '1'});
       $('html, body').animate({scrollTop: 700}, 'fast');
     },
     blogReading: function (blog) {
